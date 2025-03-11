@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from modules.static_analysis.analyzer import analyze_code
 
 app = Flask(__name__)
 
@@ -12,16 +13,16 @@ def index():
 def submit_code():
     data = request.get_json()
     code_snippet = data.get('code')
+    if not code_snippet:
+        return jsonify({"error": "No code provided"}), 400
+    # TODO for vulnerability analysis
 
-    # TODO for vulnerability analysis:
     # TODO integrate the static analysis tool,
+    result = analyze_code(code_snippet)
+
     # TODO LLM-based analysis
+
     # TODO RAG module.
-    result = {
-        "vulnerabilities": [],
-        "message": "Code received successfully. Analysis pending.",
-        "code": code_snippet
-    }
 
     return jsonify(result), 200
 
